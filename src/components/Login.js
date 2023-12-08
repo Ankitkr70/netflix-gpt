@@ -8,6 +8,13 @@ import {
   validatePassword,
 } from "../utils/validate";
 
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
+import { auth } from "../utils/firebase";
+import { useNavigate } from "react-router-dom";
+
 const Login = () => {
   const [isSignIn, setIsSignIn] = useState(true);
   const [showPassword, setShowpassword] = useState(false);
@@ -16,10 +23,12 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState({});
 
-  const validateFormData = (e) => {
+  const navigate = useNavigate();
+
+  const validateFormData = async (e) => {
     e.preventDefault();
     const error = {};
-    let nameError;
+    let nameError = null;
     if (!isSignIn) {
       nameError = validateName(name);
       if (nameError) {
@@ -40,9 +49,35 @@ const Login = () => {
 
     if (nameError || emailError || passwordError) return;
 
-    //Do something
+    if (isSignIn) {
+      //sign In user
+      await signInUser(email, password);
+    } else {
+      //create a new user
+      await createUser(email, password);
+    }
   };
-  console.log(error);
+
+  const createUser = async (email, password) => {
+    try {
+      await createUserWithEmailAndPassword(auth, email, password);
+      navigate("/browse");
+    } catch (error) {
+      //error from firebase
+    }
+  };
+  const signInUser = async (email, password) => {
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
+      navigate("/browse");
+    } catch (error) {
+      //error
+      setError({
+        ...error,
+        firebaseError: "Invalid Email/Password or user doesn't exists",
+      });
+    }
+  };
 
   return (
     <div>
@@ -50,7 +85,7 @@ const Login = () => {
       <div className="absolute top-0 z-[-2] object-cover w-full h-full ">
         <img src="/images/background.jpg" alt="" className="w-full h-full" />
       </div>
-      <div className="absolute left-0 right-0 top-0 z-[-1] w-full h-full bg-black bg-opacity-[0.5]"></div>
+      <div className="absolute left-0 right-0 top-0 z-[-1] w-full h-full bg-black bg-opacity-[0.1]"></div>
 
       <div className="w-4/12 mx-auto bg-black px-20 py-16 mt-28 rounded-lg bg-opacity-[0.85]">
         <form className="text-white" onSubmit={validateFormData}>
@@ -104,6 +139,9 @@ const Login = () => {
           </div>
           {error?.passwordError && (
             <p className="text-red-600 text-sm">{error.passwordError}</p>
+          )}
+          {error?.firebaseError && (
+            <p className="text-red-600 text-sm">{error.firebaseError}</p>
           )}
           <div className="my-6 text-lg ">
             <input

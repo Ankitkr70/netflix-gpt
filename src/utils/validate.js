@@ -4,7 +4,7 @@ export const validateName = (name) => {
   if (!isNameValid) {
     return "Please enter a valid name";
   }
-  return "";
+  return null;
 };
 
 export const validateEmail = (email) => {
@@ -13,7 +13,7 @@ export const validateEmail = (email) => {
   if (!isEmailValid) {
     return "Please enter a valid email";
   }
-  return "";
+  return null;
 };
 
 export const validatePassword = (password) => {
@@ -24,5 +24,5 @@ export const validatePassword = (password) => {
     return "Password is not valid";
   }
 
-  return "";
+  return null;
 };
