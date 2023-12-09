@@ -11,9 +11,12 @@ import {
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  updateProfile,
 } from "firebase/auth";
 import { auth } from "../utils/firebase";
-import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { addUser } from "../redux/userSlice";
+import { EMAIL_PASS_INVALID } from "../utils/constants";
 
 const Login = () => {
   const [isSignIn, setIsSignIn] = useState(true);
@@ -23,7 +26,7 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState({});
 
-  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const validateFormData = async (e) => {
     e.preventDefault();
@@ -61,7 +64,7 @@ const Login = () => {
   const createUser = async (email, password) => {
     try {
       await createUserWithEmailAndPassword(auth, email, password);
-      navigate("/browse");
+      await updateUserProfile();
     } catch (error) {
       //error from firebase
     }
@@ -69,14 +72,27 @@ const Login = () => {
   const signInUser = async (email, password) => {
     try {
       await signInWithEmailAndPassword(auth, email, password);
-      navigate("/browse");
     } catch (error) {
       //error
       setError({
         ...error,
-        firebaseError: "Invalid Email/Password or user doesn't exists",
+        firebaseError: EMAIL_PASS_INVALID,
       });
     }
+  };
+
+  const updateUserProfile = async () => {
+    await updateProfile(auth.currentUser, {
+      displayName: name,
+    });
+    const { uid, displayName, email } = auth.currentUser;
+    dispatch(
+      addUser({
+        uid,
+        displayName,
+        email,
+      })
+    );
   };
 
   return (
