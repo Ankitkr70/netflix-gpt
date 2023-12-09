@@ -1,4 +1,3 @@
-import React from "react";
 import Header from "./Header";
 import VideoContainer from "./VideoContainer";
 import MoviesContainer from "./MoviesContainer";

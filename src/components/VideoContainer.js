@@ -9,7 +9,7 @@ const VideoContainer = () => {
     nowPlayingMovies[Math.floor(Math.random() * nowPlayingMovies?.length)];
 
   return (
-    <div className="">
+    <div className="relative">
       <VideoDescription movie={randomMovie} />
       <VideoBackground movieID={randomMovie?.id} />
     </div>

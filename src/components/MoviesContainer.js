@@ -2,7 +2,7 @@ import React from "react";
 import useGetNowPlaying from "../hooks/useGetNowPlaying";
 
 const MoviesContainer = () => {
-  return <div>MoviesContainer</div>;
+  return <div className="">MoviesContainer</div>;
 };
 
 export default MoviesContainer;
