@@ -61,7 +61,7 @@ const Header = () => {
   };
   return (
     <div
-      className={`flex justify-between items-center fixed left-0 top-0 right-0 px-2 py-2 bg-gradient-to-b from-black ${
+      className={`flex justify-between items-center fixed z-20 left-0 top-0 right-0 px-2 py-2 bg-gradient-to-b from-black ${
         scroll === 100 ? "to-[rgba(0,0,0,0.8)]" : ""
       } z-10`}
     >

@@ -18,7 +18,6 @@ const useGetMovieTrailer = (movieID) => {
             video.type === "Trailer" && video.name === "Official Trailer"
         );
 
-        console.log(officialTrailer[0]?.key);
         officialTrailer.length > 0
           ? dispatch(addTrailerID(officialTrailer[0]?.key))
           : dispatch(addTrailerID(results[0]?.key));
