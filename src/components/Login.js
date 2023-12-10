@@ -98,10 +98,10 @@ const Login = () => {
   return (
     <div>
       <Header />
-      <div className="absolute top-0 z-[-2] object-cover w-full h-full ">
-        <img src="/images/background.jpg" alt="" className="w-full h-full" />
+      <div className="fixed top-0 z-[-2] object-cover w-full  ">
+        <img src="/images/background.jpg" alt="" className="w-full" />
       </div>
-      <div className="absolute left-0 right-0 top-0 z-[-1] w-full h-full bg-black bg-opacity-[0.1]"></div>
+      <div className="fixed left-0 right-0 top-0 z-[-1] w-full h-full bg-black bg-opacity-[0.1]"></div>
 
       <div className="w-4/12 mx-auto bg-black px-20 py-16 mt-28 rounded-lg bg-opacity-[0.85]">
         <form className="text-white" onSubmit={validateFormData}>
